@@ -11,7 +11,7 @@ jobs:
       - name: Unzip project
         run: |
           unzip SAMP-Mobile-Launcher-RN-main.zip.zip
-          # Папканың нақты атын анықтап, айнымалыға сақтау
+          # Папканың нақты атын анықтау (ls арқылы)
           DIR=$(ls -d */ | grep -v '.github' | head -n 1 | sed 's/\///')
           echo "PROJECT_DIR=$DIR" >> $GITHUB_ENV
 
