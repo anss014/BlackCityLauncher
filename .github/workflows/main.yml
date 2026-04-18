@@ -11,8 +11,9 @@ jobs:
       - name: Unzip project
         run: |
           unzip SAMP-Mobile-Launcher-RN-main.zip.zip
-          # Папканың атын анықтау
-          echo "FOLDER_NAME=$(ls -d */ | grep -v 'github' | head -n 1 | sed 's/\///')" >> $GITHUB_ENV
+          # Папканың нақты атын анықтап, айнымалыға сақтау
+          DIR=$(ls -d */ | grep -v '.github' | head -n 1 | sed 's/\///')
+          echo "PROJECT_DIR=$DIR" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -21,12 +22,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd ${{ env.FOLDER_NAME }}
+          cd ${{ env.PROJECT_DIR }}
           yarn install
 
       - name: Build Android Debug
         run: |
-          cd ${{ env.FOLDER_NAME }}/android
+          cd ${{ env.PROJECT_DIR }}/android
           chmod +x gradlew
           ./gradlew assembleDebug
 
@@ -34,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: BlackCity-Launcher
-          path: ${{ env.FOLDER_NAME }}/android/app/build/outputs/apk/debug/app-debug.apk
+          path: ${{ env.PROJECT_DIR }}/android/app/build/outputs/apk/debug/app-debug.apk
